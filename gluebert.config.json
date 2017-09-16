@@ -1,0 +1,6 @@
+{
+    "locations": {
+        "data": "./examples/js/megadata",
+        "module": "./examples/js/duuduumodules"
+    }
+}

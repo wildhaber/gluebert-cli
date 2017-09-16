@@ -1,0 +1,7 @@
+{
+  "target": "data",
+  "files": {
+    "$NAME$.data.js": "./data.js",
+    "$NAME$.signature.js": "./signature.js"
+  }
+}
