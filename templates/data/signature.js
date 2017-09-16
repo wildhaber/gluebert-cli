@@ -1,14 +1,14 @@
 import { DataSignature } from 'gluebert/data';
 
 /**
- * DataSignature for $NAME$Data
+ * DataSignature for $NAME_UPPER_CAMEL$Data
  * @type {DataSignature}
  */
-const $NAME$_SIGNATURE = new DataSignature(
-    '$NAME$.data',
-    () => import('./$NAME$.data').then((data) => data.$NAME$Data),
+const $NAME_SNAKE_UPPER$_SIGNATURE = new DataSignature(
+    '$NAME_HYPHEN$.data',
+    () => import('./$NAME_HYPHEN$.data').then((data) => data.$NAME_UPPER_CAMEL$Data),
 );
 
 export {
-    $NAME$_SIGNATURE,
+    $NAME_SNAKE_UPPER$_SIGNATURE,
 };

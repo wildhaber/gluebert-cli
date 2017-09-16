@@ -57,9 +57,39 @@ class CreateAction {
         });
     }
 
+    _camelCase(str) {
+        return str.replace(/(?:^\w|[A-Z]|\b\w)/g, (letter, index) => {
+            return (index === 0)
+                ? letter.toLowerCase()
+                : letter.toUpperCase();
+        }).replace(/\s+/g, '');
+    }
+
+    _upperCamelCase(str) {
+        const camelCase = this._camelCase(str);
+        return camelCase.charAt(0).toUpperCase() + camelCase.slice(1);
+    }
+
+    _hyphenLowerCase(str) {
+        const camelCase = this._camelCase(str);
+        return camelCase.replace(/([A-Z])/g, (g) => `-${g[0].toLowerCase()}`)
+    }
+
+    _snakeUpperCase(str) {
+        const camelCase = this._camelCase(str);
+        return camelCase.replace(/([A-Z])/g, (g) => `_${g[0].toUpperCase()}`)
+            .toUpperCase();
+    }
+
     _strReplace(str) {
         return str
-            .replace(/\$NAME\$/g, this._name);
+            .replace(/\$NAME\$/g, this._name)
+            .replace(/\$NAME_SNAKE_UPPER\$/g, this._snakeUpperCase(this._name))
+            .replace(/\$NAME_UPPER\$/g, this._name.toUpperCase())
+            .replace(/\$NAME_CAMEL\$/g, this._camelCase(this._name))
+            .replace(/\$NAME_UPPER_CAMEL\$/g, this._upperCamelCase(this._name))
+            .replace(/\$NAME_LOWER\$/g, this._name.toLowerCase())
+            .replace(/\$NAME_HYPHEN\$/g, this._hyphenLowerCase(this._name));
     }
 
     _writeFile(filePath, content) {
@@ -78,8 +108,7 @@ class CreateAction {
     async _createFiles(files, kindNamePath, templateKindPath) {
         Object.keys(files)
             .forEach((file) => {
-                const content = fs.readFileSync(path.join('./templates/', this._kind, files[file]), 'UTF8');
-                console.log(content);
+                const content = fs.readFileSync(path.join(templateKindPath, files[file]), 'UTF8');
                 const fileName = this._strReplace(file);
                 const filePath = path.join(kindNamePath, fileName);
                 this._writeFile(filePath, content);
@@ -88,7 +117,7 @@ class CreateAction {
 
     async _create() {
         try {
-            const templateKindPath = path.join('./../../templates', this._kind);
+            const templateKindPath = path.join(__dirname, './../../templates', this._kind);
             this._templateConfig = require(path.join(templateKindPath, 'config.json'));
             const locationPath = this._config.locations[this._templateConfig.target];
             const locationPathAbs = path.join(this._commands.sourcePath, locationPath);
@@ -96,7 +125,7 @@ class CreateAction {
             const directoryExists = await this._directoryExists(locationPathAbs);
 
             if(directoryExists) {
-                const kindPathName = path.join(locationPathAbs, this._name);
+                const kindPathName = path.join(locationPathAbs, this._strReplace(this._templateConfig.folder));
                 const nameAlreadyExist = await this._directoryExists(kindPathName);
                 if(!nameAlreadyExist) {
                     await this._createDir(kindPathName)

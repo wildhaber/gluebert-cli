@@ -1,7 +1,8 @@
 {
   "target": "data",
+  "folder": "$NAME_HYPHEN$",
   "files": {
-    "$NAME$.data.js": "./data.js",
-    "$NAME$.signature.js": "./signature.js"
+    "$NAME_HYPHEN$.data.js": "./data.js",
+    "$NAME_HYPHEN$.signature.js": "./signature.js"
   }
 }

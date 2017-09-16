@@ -1,13 +1,13 @@
 import { DataAbstract } from 'gluebert/data';
 
 /**
- * Class represents $NAME$
+ * Class represents $NAME_UPPER_CAMEL$Data
  * @extends DataAbstract
  */
-class $NAME$Data extends DataAbstract {
+class $NAME_UPPER_CAMEL$Data extends DataAbstract {
 
     /**
-     * create new $NAME$Data instance
+     * create new $NAME_CAMEL$Data instance
      * @param {DataObserver} dataPool
      */
     constructor(dataPool) {
@@ -17,5 +17,5 @@ class $NAME$Data extends DataAbstract {
 }
 
 export {
-    $NAME$Data,
+    $NAME_UPPER_CAMEL$Data,
 };
