@@ -1,6 +1,10 @@
 {
   "target": "data",
   "folder": "$NAME_HYPHEN$",
+  "arguments": [
+    "kind",
+    "name"
+  ],
   "files": {
     "$NAME_HYPHEN$.data.js": "./data.js",
     "$NAME_HYPHEN$.signature.js": "./signature.js"

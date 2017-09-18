@@ -1,6 +1,7 @@
 {
     "locations": {
-        "data": "./examples/js/megadata",
-        "module": "./examples/js/duuduumodules"
+        "data": "./examples/js/data",
+        "module": "./examples/js/modules",
+        "scssVariables": "./examples/scss/variables.scss"
     }
 }

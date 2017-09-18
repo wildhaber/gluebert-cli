@@ -1,0 +1,14 @@
+{
+  "target": "module",
+  "folder": "$NAME_HYPHEN$",
+  "arguments": [
+    "kind",
+    "name",
+    "selector"
+  ],
+  "files": {
+    "$NAME_HYPHEN$.controller.js": "./controller.js",
+    "$NAME_HYPHEN$.module.js": "./module.js",
+    "$NAME_HYPHEN$.styles.scss": "./styles.scss"
+  }
+}

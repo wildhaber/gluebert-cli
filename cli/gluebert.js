@@ -10,9 +10,5 @@ program
 
 const commands = new Interpreter(program.args, process.cwd());
 
-if(commands.isComplete()) {
-    const ad = new ActionDispatcher(commands);
-    ad.dispatch();
-} else {
-    commands.displayError();
-}
+const ad = new ActionDispatcher(commands);
+ad.dispatch();
