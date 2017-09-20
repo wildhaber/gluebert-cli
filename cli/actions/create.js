@@ -8,6 +8,8 @@ const KINDS = [
     'module',
 ];
 
+// This file needs a refactoring... currently just make it work.
+
 class CreateAction {
 
     constructor(commands) {
@@ -16,18 +18,33 @@ class CreateAction {
         this._config = commands.configuration;
         this._variables = new Variables();
 
-        this._kind = (this._arguments.kind)
+        this._kind = (this._arguments.kind && KINDS.includes(this._arguments.kind.toLowerCase()))
             ? this._arguments.kind.toLowerCase()
             : null;
 
         this._name = this._arguments.name;
         this._selector = this._arguments.selector;
 
-        this._templateKindPath = path.join(__dirname, './../../templates', this._kind);
-        this._templateConfig = this.getTemplateConfig();
+        this._templateKindPath = (this._kind)
+            ? path.join(__dirname, './../../templates', this._kind)
+            : null;
+
+        this._templateConfig = (this._config && this._templateKindPath)
+            ? this.getTemplateConfig()
+            : null;
+
         this._relStylesVariablesPath = null;
 
-        this._init();
+        if(this._config && this._templateKindPath) {
+            this._init();
+        } else if(this._config) {
+            this._autocomplete();
+        } else {
+            console.log(`It looks like your poroject has no 'gluebert.config.json'-file yet.`);
+            console.log(`you can create one by typing:`);
+            console.log(`gluebert init`);
+        }
+
     }
 
     _init() {
@@ -209,12 +226,21 @@ class CreateAction {
     _autocomplete() {
         if(!this._kind) {
             inquirer.prompt([{
-                type: 'input',
-                name: 'name',
-                message: `What is the name of your ${this._kind}?`,
+                type: 'list',
+                name: 'kind',
+                message: `What would you like to create?`,
+                choices: KINDS.map((kind) => {
+                    return {
+                        name: kind,
+                        value: kind,
+                    };
+                }),
             }])
                 .then((answers) => {
-                    this._name = answers.name;
+                    this._kind = answers.kind;
+                    this._templateKindPath = path.join(__dirname, './../../templates', this._kind);
+                    this._templateConfig = this.getTemplateConfig();
+
                     this._init();
                 });
         } else if(!KINDS.includes(this._kind)) {

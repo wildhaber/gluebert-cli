@@ -1,4 +1,5 @@
 const PATH = require('path');
+const fs = require('fs');
 
 const CONFIG_FILE = `gluebert.config.json`;
 
@@ -28,7 +29,11 @@ class CommandInterpreter {
     }
 
     getConfiguration() {
-        return require(PATH.join(this.sourcePath, CONFIG_FILE));
+        const _p = PATH.join(this.sourcePath, CONFIG_FILE);
+
+        return (fs.existsSync(_p))
+            ? require(_p)
+            : null;
     }
 
     isComplete() {

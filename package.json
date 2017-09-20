@@ -1,6 +1,6 @@
 {
   "name": "gluebert-cli",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "description": "cli interface for gluebert.js",
   "main": "index.js",
   "bin": {
